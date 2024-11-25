@@ -86,15 +86,7 @@ var app = builder.Build();
 app.UseDefaultFiles(); // Enable default files like index.html and login.html
 app.UseStaticFiles();  // Ensure that static files are served from wwwroot
 
-// Enable Swagger only on specific route
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.RoutePrefix = "swagger"; // Swagger UI is accessible at /swagger
-    });
-}
+
 
 // Redirect root (/) to /login
 app.MapGet("/", context =>
@@ -145,13 +137,6 @@ app.MapGet("/aboutus", async context =>
     await context.Response.SendFileAsync("wwwroot/pages/aboutus.html"); // Serve booking page
 });
 
-// userlist page route
-app.MapGet("/useraccount", async context =>
-{
-    context.Response.ContentType = "text/html";
-    await context.Response.SendFileAsync("wwwroot/pages/UserAccount.html"); // Serve booking page
-});
-
 // admin login page route
 app.MapGet("/adminlogin", async context =>
 {
@@ -159,12 +144,29 @@ app.MapGet("/adminlogin", async context =>
     await context.Response.SendFileAsync("wwwroot/pages/AdminLogin.html"); // Serve booking page
 });
 
+// userlist page route
+app.MapGet("/useraccount", async context =>
+{
+    context.Response.ContentType = "text/html";
+    await context.Response.SendFileAsync("wwwroot/pages/UserAccount.html"); // Serve booking page
+});
+
+
+
 // admin booking page route
 app.MapGet("/adminbooking", async context =>
 {
     context.Response.ContentType = "text/html";
     await context.Response.SendFileAsync("wwwroot/pages/AdminBooking.html"); // Serve booking page
 });
+
+// add booking page route
+app.MapGet("/adminfacilities", async context =>
+{
+    context.Response.ContentType = "text/html";
+    await context.Response.SendFileAsync("wwwroot/pages/AdminFacilities.html"); // Serve booking page
+});
+
 
 // Enable CORS
 app.UseCors("AllowAll");

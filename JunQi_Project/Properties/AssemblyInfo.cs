@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JunQi_Project")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c19724ec326709e32d75807aad795a5f48b9add9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7501a77e27824b71ac59c26b41d08aa7f34b471")]
 [assembly: System.Reflection.AssemblyProductAttribute("JunQi_Project")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JunQi_Project")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

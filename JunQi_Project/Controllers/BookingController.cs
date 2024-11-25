@@ -64,6 +64,32 @@ namespace JunQi_Project.Controllers
             return CreatedAtAction("GetAll", new { id = booking.BookingID }, booking);
         }
 
+        // PUT: Update booking details
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Booking updatedBooking)
+        {
+            // Find the existing booking by ID
+            var existingBooking = _context.Bookings.FirstOrDefault(b => b.BookingID == id);
+
+            if (existingBooking == null)
+            {
+                return NotFound(); // If the booking doesn't exist
+            }
+
+            // Update the booking properties
+            existingBooking.FacilityDescription = updatedBooking.FacilityDescription;
+            existingBooking.BookingDateFrom = updatedBooking.BookingDateFrom;
+            existingBooking.BookingDateTo = updatedBooking.BookingDateTo;
+            existingBooking.BookedBy = updatedBooking.BookedBy;
+            existingBooking.BookingStatus = updatedBooking.BookingStatus;
+
+            // Save changes to the database
+            _context.SaveChanges();
+
+            return Ok(existingBooking); // Return the updated booking
+        }
+
+
         //Put: Update details. Remove the BookingId if got. 
         [HttpPut]
         public IActionResult Put(int? id, Booking booking)

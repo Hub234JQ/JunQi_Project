@@ -6,99 +6,55 @@
     <title>Facility Booking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <style>
-        /* Custom Styles */
         body {
+            background-color: #f4f7fc;
             font-family: Arial, sans-serif;
-            line-height: 1.6;
         }
 
-        .hero {
-            background: url('pages/image/banner-1.jpg') no-repeat center center/cover;
-            color: white;
-            padding: 100px 20px;
-            text-align: center;
+        .container {
+            margin-top: 50px;
         }
 
-            .hero h1 {
-                font-size: 3rem;
-                font-weight: bold;
-            }
-
-            .hero p {
-                font-size: 1.2rem;
-                margin-bottom: 20px;
-            }
-
-            .hero .btn {
-                font-size: 1.2rem;
-                padding: 10px 30px;
-            }
-
-        .card {
-            transition: all 0.3s ease-in-out;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-            .card:hover {
-                transform: scale(1.05);
-            }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: bold;
+        h2 {
             color: #333;
+            margin-bottom: 30px;
         }
 
-        .card-text {
-            font-size: 1.1rem;
-            color: #555;
+        table {
+            width: 100%;
+            margin-top: 20px;
         }
 
-        footer {
-            background-color: #222;
-            color: #aaa;
+        th, td {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #ddd;
         }
 
-            footer a {
-                color: #ffc107;
-                text-decoration: none;
-            }
-
-                footer a:hover {
-                    text-decoration: underline;
-                }
-
-        .form-label {
-            font-weight: 600;
+        th {
+            background-color: #007bff;
+            color: white;
         }
 
-        /* Button styles */
-        .btn-primary {
+        .btn {
             background-color: #2575fc;
+            color: white;
             border: none;
+            padding: 8px 16px;
+            cursor: pointer;
         }
 
-            .btn-primary:hover {
+            .btn:hover {
                 background-color: #1a5bbb;
             }
 
-        /* For mobile responsiveness */
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
+        #editUserModal .modal-content {
+            padding: 20px;
+        }
 
-            .hero p {
-                font-size: 1rem;
-            }
+        .form-check-label {
+            font-size: 14px;
         }
     </style>
 </head>
@@ -115,31 +71,21 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/home">Home</a>
+                        <a class="nav-link" href="/useraccount">User List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/facilities">Facilities</a>
+                        <a class="nav-link active" href="/adminfacilities">Add Facilities</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/aboutus">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/booking">Booking</a>
+                        <a class="nav-link" href="/adminbooking">Booking List</a>
                     </li>
                 </ul>
-                <button class="btn btn-warning" id="loginButton">
-                    <a class="nav-link" href="/login">Login</a>
+                <button class="btn btn-warning" id="logoutButton">
+                    <a class="nav-link" href="/adminlogin">Logout</a>
                 </button>
             </div>
         </div>
     </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Welcome to Our Facility Booking System</h1>
-        <p>Book your preferred facilities easily and efficiently with just a few clicks.</p>
-        <a href="#booking" class="btn btn-warning">Get Started</a>
-    </section>
 
     <!-- Booking Section -->
     <div id="booking" class="container my-5">
@@ -150,7 +96,6 @@
                     <label for="fullName" class="form-label">Full Name</label>
                     <input type="text" class="form-control" id="fullName" name="fullName" required>
                 </div>
-               
             </div>
             <div class="my-3">
                 <label for="facilityType" class="form-label">Select Facility</label>
@@ -177,17 +122,19 @@
                 <label for="bookingTill" class="form-label">Booking Date Till</label>
                 <input type="date" class="form-control" id="bookingTill" name="bookingTill" required>
             </div>
+            <div class="my-3">
+                <label for="bookingStatus" class="form-label">Booking Status</label>
+                <select class="form-select" id="bookingStatus" name="bookingStatus" required>
+                    <option value="Pending" selected>Pending</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-primary w-100">Book Now</button>
         </form>
     </div>
-
-    <!-- Footer -->
-    <footer class="text-center py-4">
-        <div class="container">
-            <p>&copy; 2024 Facility Booking System | Designed with 💖 by JunQi</p>
-            <a href="">Privacy Policy</a> | <a href="">Terms of Service</a>
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -198,6 +145,7 @@
             const facilityType = document.getElementById('facilityType').value;
             const bookingFrom = document.getElementById('bookingFrom').value;
             const bookingTill = document.getElementById('bookingTill').value;
+            const bookingStatus = document.getElementById('bookingStatus').value;
 
             // Prepare the booking data
             const bookingData = {
@@ -205,7 +153,7 @@
                 BookingDateFrom: bookingFrom, // Use the 'Booking Date From' value
                 BookingDateTo: bookingTill,   // Use the 'Booking Date Till' value
                 BookedBy: fullName,
-                BookingStatus: "Pending" // Default status
+                BookingStatus: bookingStatus // Added booking status from input field
             };
 
             // Send data to the API

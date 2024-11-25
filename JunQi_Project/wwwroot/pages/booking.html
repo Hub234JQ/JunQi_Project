@@ -180,6 +180,13 @@
             </div>
         </div>
     </div>
+    <!-- Footer -->
+    <footer class="text-center py-4">
+        <div class="container">
+            <p>&copy; 2024 Facility Booking System | Designed with 💖 by JunQi</p>
+            <a href="">Privacy Policy</a> | <a href="">Terms of Service</a>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -210,17 +217,17 @@
                         tbody.innerHTML = ''; // Clear the table body
                         bookingsToDisplay.forEach(booking => {
                             const row = `<tr>
-                                                    <td>${booking.bookingID}</td>
-                                                    <td>${booking.facilityDescription}</td>
-                                                    <td>${new Date(booking.bookingDateFrom).toLocaleDateString('en-GB')}</td>
-                                                    <td>${new Date(booking.bookingDateTo).toLocaleDateString('en-GB')}</td>
-                                                    <td>${booking.bookedBy}</td>
-                                                    <td>${booking.bookingStatus}</td>
-                                                    <td>
-                                                        <button class="btn btn-warning btn-sm" onclick="openEditModal(${booking.bookingID})">Edit</button>
-                                                        <button class="btn btn-danger btn-sm" onclick="deleteBooking(${booking.bookingID})">Delete</button>
-                                                    </td>
-                                                </tr>`;
+                                                        <td>${booking.bookingID}</td>
+                                                        <td>${booking.facilityDescription}</td>
+                                                        <td>${new Date(booking.bookingDateFrom).toLocaleDateString('en-GB')}</td>
+                                                        <td>${new Date(booking.bookingDateTo).toLocaleDateString('en-GB')}</td>
+                                                        <td>${booking.bookedBy}</td>
+                                                        <td>${booking.bookingStatus}</td>
+                                                        <td>
+                                                            <button class="btn btn-warning btn-sm" onclick="openEditModal(${booking.bookingID})">Edit</button>
+                                                            <button class="btn btn-danger btn-sm" onclick="deleteBooking(${booking.bookingID})">Delete</button>
+                                                        </td>
+                                                    </tr>`;
                             tbody.insertAdjacentHTML("beforeend", row);
                         });
                     };
