@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Accounts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7fc;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #1a5bbb;
+            }
+
+        #editUserModal .modal-content {
+            padding: 20px;
+        }
+
+        .form-check-label {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <img src="pages/image/logo.png" alt="Logo" style="height: 50px;"> <!-- Adjust height as needed -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/useraccount">User List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adminbooking">Booking List</a>
+                    </li>
+                </ul>
+                <button class="btn btn-warning" id="logoutButton">
+                    <a class="nav-link" href="/adminlogin">Logout</a>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center">User Accounts</h2>
+        <table class="table table-striped" id="usersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- User data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for Editing User -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password (Optional)</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="showPassword">
+                            <label class="form-check-label" for="showPassword">Show Password</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check if the user is an admin by checking sessionStorage
+        if (sessionStorage.getItem('isAdmin') !== 'true') {
+            alert('Access Denied! You do not have permission to view this page.');
+            window.location.href = 'AdminLogin'; // Redirect to admin login page if not an admin
+        }
+
+        // Fetch the user data from the API
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/authenticate/users');
+                if (response.ok) {
+                    const users = await response.json();
+                    const usersTable = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
+                    usersTable.innerHTML = ''; // Clear any existing rows
+                    users.forEach(user => {
+                        const row = usersTable.insertRow();
+                        row.innerHTML = `
+                                                <td>${user.id}</td>
+                                                <td>${user.userName}</td>
+                                                <td>${user.email}</td>
+                                                <td>
+                                                    <button class="btn" onclick="editUser('${user.id}', '${user.userName}', '${user.email}')">Edit</button>
+                                                    <button class="btn" onclick="deleteUser('${user.id}')">Delete</button>
+                                                </td>
+                                            `;
+                    });
+                } else {
+                    alert('Failed to load users');
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                alert('An error occurred while fetching the users.');
+            }
+        }
+
+        // Function to edit user details
+        function editUser(userId, userName, userEmail) {
+            document.getElementById('username').value = userName;
+            document.getElementById('email').value = userEmail;
+            document.getElementById('editUserForm').onsubmit = async function (event) {
+                event.preventDefault();
+                const password = document.getElementById('password').value;
+                const updatedUser = {
+                    username: document.getElementById('username').value,
+                    email: document.getElementById('email').value,
+                    password: password
+                };
+                try {
+                    const response = await fetch(`/api/authenticate/update-user/${userId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updatedUser)
+                    });
+
+                    if (response.ok) {
+                        alert('User updated successfully');
+                        loadUsers();
+                        // Use Bootstrap 5's modal methods to hide the modal
+                        var modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+                        modal.hide(); // Close the modal after saving
+                    } else {
+                        alert('Failed to update user');
+                    }
+                } catch (error) {
+                    console.error('Error updating user:', error);
+                    alert('An error occurred while updating the user.');
+                }
+            };
+
+            // Add event listener to toggle password visibility
+            document.getElementById('showPassword').addEventListener('change', function () {
+                const passwordField = document.getElementById('password');
+                passwordField.type = this.checked ? 'text' : 'password';
+            });
+
+            // Use Bootstrap 5's modal methods to show the modal
+            var modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+            modal.show();
+        }
+
+        // Function to delete a user
+        async function deleteUser(userId) {
+            const confirmed = confirm('Are you sure you want to delete this user?');
+            if (confirmed) {
+                try {
+                    const response = await fetch(`/api/authenticate/delete-user/${userId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        alert('User deleted successfully');
+                        loadUsers(); // Reload the list of users after deletion
+                    } else {
+                        alert('Failed to delete the user');
+                    }
+                } catch (error) {
+                    console.error('Error deleting user:', error);
+                    alert('An error occurred while deleting the user.');
+                }
+            }
+        }
+
+        // Load users when the page loads
+        window.onload = loadUsers;
+    </script>
+
+</body>
+</html>

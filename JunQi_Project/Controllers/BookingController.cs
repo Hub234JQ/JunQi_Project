@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JunQi_Project.Models;
 using System.Diagnostics.Metrics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JunQi_Project.Controllers
 {
+    [Authorize(Roles = $"{UserRoles.Admin},{UserRoles.User}")]
     [Route("api/[controller]/{action}")]
     [ApiController]
     public class BookingController : ControllerBase
@@ -80,7 +82,7 @@ namespace JunQi_Project.Controllers
 
             return Ok(entity);
         }
-
+        
         //Delete: Delete. Just press button 
         [HttpDelete]
         public IActionResult Delete(int? id, Booking booking)
@@ -94,6 +96,30 @@ namespace JunQi_Project.Controllers
 
             return Ok(entity);
         }
+
+        //For html delete function
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return Problem(detail: "No ID provided for deletion.", statusCode: 400);
+            }
+
+            var entity = _context.Bookings.FirstOrDefault(m => m.BookingID == id);
+            if (entity == null)
+            {
+                return Problem(detail: $"Booking with id {id} is not found.", statusCode: 404);
+            }
+
+            _context.Bookings.Remove(entity);
+            _context.SaveChanges();
+
+            return Ok(new { message = $"Booking with id {id} deleted successfully." });
+        }
+
+
+
 
     }
 }

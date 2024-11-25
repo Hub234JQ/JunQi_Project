@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Facility Booking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .hero {
+            background: url('https://via.placeholder.com/1920x600') no-repeat center center/cover;
+            color: white;
+            padding: 100px 20px;
+        }
+
+            .hero h1 {
+                font-size: 3rem;
+                font-weight: bold;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+
+            .hero .btn {
+                font-size: 1.2rem;
+                padding: 10px 30px;
+            }
+
+        .card:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .card-img-top {
+            height: 200px; /* Set a consistent height */
+            object-fit: cover; /* Ensures images are cropped proportionally */
+            width: 100%; /* Ensures images fill the card's width */
+        }
+
+        footer {
+            background-color: #222;
+            color: #aaa;
+        }
+
+            footer a {
+                color: #ffc107;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <img src="pages/image/logo.png" alt="Logo" style="height: 50px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/facilities">Facilities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/aboutus">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/booking">Booking</a>
+                    </li>
+                </ul>
+                <button class="btn btn-warning" id="loginButton">
+                    <a class="nav-link" href="/login">Login</a>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Us Section -->
+    <section id="about" class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="display-4 mb-4">About Us</h2>
+                <p class="lead">Welcome to our Facility Booking System, where we connect you to a variety of facilities around Singapore. We aim to make it simple to find and book the perfect venue for your events, sports, or activities.</p>
+                <h4 class="mt-4">Our Mission</h4>
+                <p>To empower individuals and organizations by providing convenient access to versatile facilities, ensuring seamless event planning and exceptional experiences.</p>
+            </div>
+            <div class="col-md-6">
+                <img src="pages/image/Me.jpg" class="img-fluid rounded shadow-lg" alt="Facility Booking" width="250p">
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Facilities Section -->
+    <section id="facilities" class="container my-5">
+        <h3 class="text-center mb-4">Our Available Facilities</h3>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Facility Cards -->
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/indoor-badminton-court-with-bright-white-lights.jpg" class="card-img-top" alt="Badminton Court">
+                    <div class="card-body">
+                        <h5 class="card-title">Badminton Court</h5>
+                        <p class="card-text">Book courts for friendly matches or competitive tournaments with excellent facilities.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/classroom.jpg" class="card-img-top" alt="Classroom">
+                    <div class="card-body">
+                        <h5 class="card-title">Classroom</h5>
+                        <p class="card-text">Ideal for educational events and workshops with modern amenities.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/room-business-meeting.jpg" class="card-img-top" alt="Meeting Room">
+                    <div class="card-body">
+                        <h5 class="card-title">Meeting Room</h5>
+                        <p class="card-text">Perfect for business meetings with professional setups.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/basketball-arena-background.jpg" class="card-img-top" alt="Sports Hall">
+                    <div class="card-body">
+                        <h5 class="card-title">Sports Hall</h5>
+                        <p class="card-text">Large halls for sports events and recreational activities.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/HDB.png" class="card-img-top" alt="HDB Multi-Purpose Halls">
+                    <div class="card-body">
+                        <h5 class="card-title">HDB Multi-Purpose Halls</h5>
+                        <p class="card-text">Affordable and spacious halls for community events and social gatherings.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/Event Spaces.jpg" class="card-img-top" alt="Event Spaces">
+                    <div class="card-body">
+                        <h5 class="card-title">Event Spaces</h5>
+                        <p class="card-text">Versatile venues for conferences, exhibitions, and large celebrations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/Public.jpg" class="card-img-top" alt="Public Parks">
+                    <div class="card-body">
+                        <h5 class="card-title">Public Parks</h5>
+                        <p class="card-text">Open-air venues for outdoor activities and relaxing gatherings.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/karaoke.jpg" class="card-img-top" alt="Karaoke Rooms">
+                    <div class="card-body">
+                        <h5 class="card-title">Karaoke Rooms</h5>
+                        <p class="card-text">Enjoy a fun-filled karaoke experience with friends and family.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/Wedding.jpg" class="card-img-top" alt="Wedding Venues">
+                    <div class="card-body">
+                        <h5 class="card-title">Wedding Venues</h5>
+                        <p class="card-text">Elegant spaces designed to make your special day unforgettable.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/cairnhill-cc.jpg" class="card-img-top" alt="Community Centres">
+                    <div class="card-body">
+                        <h5 class="card-title">Community Centres (CC)</h5>
+                        <p class="card-text">Convenient spaces for workshops, activities, and local events.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="pages/image/facilities/Outdoor.jpg" class="card-img-top" alt="Outdoor Sports Fields">
+                    <div class="card-body">
+                        <h5 class="card-title">Outdoor Sports Fields</h5>
+                        <p class="card-text">Book fields for soccer, cricket, and other outdoor sports activities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-4">
+        <div class="container">
+            <p>&copy; 2024 Facility Booking System | Designed with 💖 by Your Team</p>
+            <a href="">Privacy Policy</a> | <a href="">Terms of Service</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Handle Login Button
+        const loginButton = document.getElementById('loginButton');
+        if (localStorage.getItem('token')) {
+            loginButton.innerHTML = '<a class="nav-link" href="/login">Logout</a>';
+            loginButton.addEventListener('click', () => localStorage.removeItem('token'));
+        }
+    </script>
+</body>
+</html>

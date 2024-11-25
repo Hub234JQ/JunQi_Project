@@ -1,0 +1,391 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f7fc;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #1a5bbb;
+            }
+
+        #editUserModal .modal-content {
+            padding: 20px;
+        }
+
+        .form-check-label {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <img src="pages/image/logo.png" alt="Logo" style="height: 50px;"> <!-- Adjust height as needed -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/useraccount">User List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/adminbooking">Booking List</a>
+                    </li>
+                </ul>
+                <button class="btn btn-warning" id="logoutButton">
+                    <a class="nav-link" href="/adminlogin">Logout</a>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="text-center">Booking Details</h2>
+        <table class="table table-bordered mt-4" id="bookingTable">
+            <!-- Search Filter -->
+            <div class="mb-3">
+                <label for="searchFilter" class="form-label">Search Bookings</label>
+                <input type="text" id="searchFilter" class="form-control" placeholder="Search by Facility Description or Booked By">
+            </div>
+            <!-- Filter by Booking Status -->
+            <div class="mb-3">
+                <label for="statusFilter" class="form-label">Filter by Status</label>
+                <select id="statusFilter" class="form-select">
+                    <option value="">All</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Facility Description</th>
+                    <th>Booking Date From</th>
+                    <th>Booking Date To</th>
+                    <th>Booked By</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Modal for Editing Booking -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editBookingForm">
+                        <div class="mb-3">
+                            <label for="facilityDescription" class="form-label">Facility Description</label>
+                            <select class="form-select" id="facilityDescription" required>
+                                <option value="" disabled selected>Select Facility</option>
+                                <!-- Add options dynamically or statically -->
+                                <option value="" disabled selected>Choose...</option>
+                                <option value="Badminton Court">Badminton Court</option>
+                                <option value="Classroom">Classroom</option>
+                                <option value="Meeting Room">Meeting Room</option>
+                                <option value="Sports Halls">Sports Halls</option>
+                                <option value="HDB Multi-Purpose Halls">HDB Multi-Purpose Halls</option>
+                                <option value="Event Spaces">Event Spaces</option>
+                                <option value="Outdoor Sports Fields">Outdoor Sports Fields</option>
+                                <option value="Community Centres (CC)">Community Centres (CC)</option>
+                                <option value="Public Parks">Public Parks</option>
+                                <option value="Wedding Venues">Wedding Venues</option>
+                                <option value="Karaoke Rooms">Karaoke Rooms</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bookingDateFrom" class="form-label">Booking Date From</label>
+                            <input type="date" class="form-control" id="bookingDateFrom" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bookingDateTo" class="form-label">Booking Date To</label>
+                            <input type="date" class="form-control" id="bookingDateTo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bookedBy" class="form-label">Booked By</label>
+                            <input type="text" class="form-control" id="bookedBy" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bookingStatus" class="form-label">Booking Status</label>
+                            <select class="form-select" id="bookingStatus">
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Unauthorized access. Please log in as a Member or Admin.");
+                window.location.href = "/login";
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/booking/getall", {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const bookings = await response.json();
+                    const tbody = document.querySelector("#bookingTable tbody");
+
+                    // Store all bookings for later filtering
+                    let allBookings = bookings;
+
+                    // Function to render the table rows
+                    const renderTableRows = (bookingsToDisplay) => {
+                        tbody.innerHTML = ''; // Clear the table body
+                        bookingsToDisplay.forEach(booking => {
+                            const row = `<tr>
+                                                            <td>${booking.bookingID}</td>
+                                                            <td>${booking.facilityDescription}</td>
+                                                            <td>${new Date(booking.bookingDateFrom).toLocaleDateString('en-GB')}</td>
+                                                            <td>${new Date(booking.bookingDateTo).toLocaleDateString('en-GB')}</td>
+                                                            <td>${booking.bookedBy}</td>
+                                                            <td>${booking.bookingStatus}</td>
+                                                            <td>
+                                                                <button class="btn btn-warning btn-sm" onclick="openEditModal(${booking.bookingID})">Edit</button>
+                                                                <button class="btn btn-danger btn-sm" onclick="deleteBooking(${booking.bookingID})">Delete</button>
+                                                            </td>
+                                                        </tr>`;
+                            tbody.insertAdjacentHTML("beforeend", row);
+                        });
+                    };
+
+                    // Initially render all bookings
+                    renderTableRows(allBookings);
+
+                    // Add filter functionality for status
+                    const statusFilter = document.getElementById("statusFilter");
+                    statusFilter.addEventListener("change", (event) => {
+                        const filterValue = event.target.value;
+                        let filteredBookings = allBookings;
+
+                        if (filterValue) {
+                            filteredBookings = allBookings.filter(booking => booking.bookingStatus === filterValue);
+                        }
+
+                        // Render the filtered bookings
+                        renderTableRows(filteredBookings);
+                    });
+
+                    // Add search filter by description or booked by
+                    const searchFilter = document.getElementById("searchFilter");
+                    searchFilter.addEventListener("input", () => {
+                        const searchTerm = searchFilter.value.toLowerCase();
+                        const rows = tbody.getElementsByTagName("tr");
+                        Array.from(rows).forEach(row => {
+                            const facilityDescription = row.cells[1].textContent.toLowerCase();
+                            const bookedBy = row.cells[4].textContent.toLowerCase();
+                            if (facilityDescription.includes(searchTerm) || bookedBy.includes(searchTerm)) {
+                                row.style.display = "";
+                            } else {
+                                row.style.display = "none";
+                            }
+                        });
+                    });
+
+                } else {
+                    if (response.status === 403) {
+                        alert("Access denied. Member or Admin privileges required.");
+                        window.location.href = "/login";
+                    } else {
+                        alert("Failed to fetch booking details. Please try again.");
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching booking details:", error);
+                alert("An error occurred. Please try again.");
+            }
+        });
+
+        // Open the edit modal and populate fields with booking data
+        function openEditModal(bookingID) {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                return;
+            }
+
+            fetch(`/api/booking/getbyid/${bookingID}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(booking => {
+                    document.getElementById("facilityDescription").value = booking.facilityDescription;
+                    document.getElementById("bookingDateFrom").value = new Date(booking.bookingDateFrom).toISOString().split('T')[0];
+                    document.getElementById("bookingDateTo").value = new Date(booking.bookingDateTo).toISOString().split('T')[0];
+                    document.getElementById("bookedBy").value = booking.bookedBy;
+                    document.getElementById("bookingStatus").value = booking.bookingStatus;
+
+                    // When the form is submitted, update the booking
+                    const form = document.getElementById("editBookingForm");
+                    form.onsubmit = async (event) => {
+                        event.preventDefault();
+                        await updateBooking(bookingID);
+                    };
+
+                    // Show the modal
+                    const myModal = new bootstrap.Modal(document.getElementById('editModal'));
+                    myModal.show();
+                })
+                .catch(error => {
+                    console.error("Error fetching booking data:", error);
+                    alert("An error occurred. Please try again.");
+                });
+        }
+
+        // Function to update the booking
+        async function updateBooking(bookingID) {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                return;
+            }
+
+            const facilityDescription = document.getElementById("facilityDescription").value;
+            const bookingDateFrom = document.getElementById("bookingDateFrom").value;
+            const bookingDateTo = document.getElementById("bookingDateTo").value;
+            const bookedBy = document.getElementById("bookedBy").value;
+            const bookingStatus = document.getElementById("bookingStatus").value;
+
+            const updatedBooking = {
+                bookingID,
+                facilityDescription,
+                bookingDateFrom: new Date(bookingDateFrom).toISOString(),
+                bookingDateTo: new Date(bookingDateTo).toISOString(),
+                bookedBy,
+                bookingStatus
+            };
+
+            try {
+                const response = await fetch(`https://localhost:44366/api/Booking/Put?id=${bookingID}`, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updatedBooking)
+                });
+
+                if (response.ok) {
+                    alert("Booking updated successfully!");
+                    location.reload(); // Reload the page to reflect the changes
+                } else {
+                    alert("Failed to update booking. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error updating booking:", error);
+                alert("An error occurred. Please try again.");
+            }
+        }
+
+        // Function to delete a booking
+        async function deleteBooking(bookingID) {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Unauthorized access. Please log in.");
+                return;
+            }
+
+            if (confirm("Are you sure you want to delete this booking?")) {
+                try {
+                    const response = await fetch(`https://localhost:44366/api/Booking/Delete/${bookingID}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        alert("Booking deleted successfully!");
+                        location.reload(); // Reload the page to reflect the changes
+                    } else {
+                        alert("Failed to delete booking. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error deleting booking:", error);
+                    alert("An error occurred. Please try again.");
+                }
+            }
+        }
+    </script>
+
+    <script>
+        // Handle Login Button
+        const loginButton = document.getElementById('loginButton');
+        if (localStorage.getItem('token')) {
+            loginButton.innerHTML = '<a class="nav-link" href="/adminlogin">Logout</a>';
+            loginButton.addEventListener('click', () => localStorage.removeItem('token'));
+        }
+    </script>
+</body>
+</html>
